@@ -14,19 +14,31 @@ cursor = cnx.cursor()
 
 # Define functions with SQL queries
 def search():
-    query = "Select * FROM funcionarios"
-    cursor.execute(query)
-    results=cursor.fetchall()
-    return results
+    try:
+        query = "Select * FROM funcionarios"
+        cursor.execute(query)
+        results=cursor.fetchall()
+        return results
+    except mysql.Error as err:
+        sg.popup_erro(f'error to search employees: {err}')    
+        return []
 def del_employer(employeeid, employee_name):
-    delete = "DELETE FROM funcionarios WHERE id_func = %s AND nome = %s"
-    cursor.execute(delete, (employeeid, employee_name))
-    cnx.commit()
+    try:
+        delete = "DELETE FROM funcionarios WHERE id_func = %s AND nome = %s"
+        cursor.execute(delete, (employeeid, employee_name))
+        cnx.commit()
+    except mysql.Error as err:
+        sg.popup_erro(f'error to search employees: {err}')    
+      
+    
 def newemp(func_id, nome, salario, carg, data_contratacao, id_depto):
-    add = "INSERT INTO funcionarios (id_func, nome, salario, cargo, data_contratacao, id_depto) VALUES (%s,%s,%s,%s,%s,%s)"
-    values = (func_id, nome, salario, carg, data_contratacao, id_depto)   
-    cursor.execute(add, values)
-    cnx.commit()
+    try:
+        add = "INSERT INTO funcionarios (id_func, nome, salario, cargo, data_contratacao, id_depto) VALUES (%s,%s,%s,%s,%s,%s)"
+        values = (func_id, nome, salario, carg, data_contratacao, id_depto)   
+        cursor.execute(add, values)
+        cnx.commit()
+    except mysql.Error as err:
+        sg.popup_error(f"Erro ao adicionar novo funcionário: {err}")
 
 # Define layout for adding a new employee
 def layout_add():
@@ -83,16 +95,18 @@ while True:
                 break
              # Add an employee
             elif event == "Send":
-                employeeid= int(values['func_id'])
-                employee_name = values['nome']
-                employee_job = values['carg']
-                employee_hired = values['data_contratacao']
-                department_id = int(values['id_depto'])
-                employee_salary = int(values['salario'])
-                newemp(employeeid, employee_name, employee_salary, employee_job, employee_hired, department_id)
-                print("The new employer was been added")
-                window.close()
-    
+                try:
+                    employeeid= int(values['func_id'])
+                    employee_name = values['nome']
+                    employee_job = values['carg']
+                    employee_hired = values['data_contratacao']
+                    department_id = int(values['id_depto'])
+                    employee_salary = int(values['salario'])
+                    newemp(employeeid, employee_name, employee_salary, employee_job, employee_hired, department_id)
+                    print("The new employer was been added")
+                    window.close()
+                except ValueError:
+                     sg.popup_error("Erro: Verifique os valores inseridos")
     elif event == "Delete a employee":
         window = sg.Window("Add a employee", layout_remove())
         while True:
@@ -101,11 +115,14 @@ while True:
                 break
             # Delete an employee
             elif event == "Send":
-                employeeid= int(values['func_id'])
-                employee_name = values['nome']
-                del_employer(employeeid, employeeid)
-                print("The employee has been removed")
-                window.close()
+                try:
+                    employeeid= int(values['func_id'])
+                    employee_name = values['nome']
+                    del_employer(employeeid, employeeid)
+                    print("The employee has been removed")
+                    window.close()
+                except ValueError:
+                    sg.popup_error("Erro: Verifique os valores inseridos")
       # Perform a search
     elif event == "search":
         window_search = sg.Window('Search Results', layout_search())
