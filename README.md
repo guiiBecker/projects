@@ -46,6 +46,22 @@ ______________________
 
 _______________
 
+### Código
+  O código foi pensado e desenvolvido totalmente em python. Tanto a forma de realizar a conexão ao banco de dados hospedado em minha máquina, como a função de apresentar uma interface padrão para o usuário.
+  A ideia do projeto é para o usuário conseguir gerar relatórios, adicionar e remover funcionários do banco de dados da empresa.
+  Função **search**
+  A ideia é o administrador conseguir gerar um relatório sobre os funcionários presentes no banco de dados, atualmente essa função relata os funcionários e as informações ligadas a eles. O funiconamento dele está ocorrendo, com um trigger que quando acionado gera uma tabela com todos os funcionários.
+  Função **del_employer**
+  Está função realiza a exclusão de um item presente no banco de dados, para a exclusão são necessários dois dados, o nome do empregado e o ID dele na empresa. Assim que executada o código executa a consulta no banco de dados com as devidas informações e realiza a exclusão.
+  Função **newemp**
+  Está função realiza a inclusão de um funcionário no banco de dados. Para isso se faz necessário que o administrador insira todos os dados do funcionário necessários. Quando devidamente preenchido e executado, o novo funcionário é adicionado no banco de dados. 
+  **Erros**
+  Nesse código apenas foram idealizados os tratamentos de erros básicos presente em um SQL, sempre que ocorrer um erro será informado para o usuário em que função o erro ocorreu e o também o erro que ocorreu no banco de dados.
+  **Layouts**
+  Os Layouts foram pensados para serem o mais simples possíveis, pois a ideia desse projeto era criar um gerenciador de banco de dados que não um usuário comum conseguiria utilizar sem problemas, eles são limpos sem muitas informações e intuitivos para usuário.
+  **Erros**
+  O tratamento de dados nesse caso ocorre quando o usuário insere valores que não estão presentes no banco de dados ou insere de maneira equivocada os dados necessários para realizar um novo cadastro. A opção Search apenas gera um relatório geral sem especificações. 
+
   
 
 
